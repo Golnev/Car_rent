@@ -1,0 +1,106 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block title %}
+{{ post.title }}
+{% endblock %}
+
+{% block active %}
+<div class="collapse navbar-collapse" id="ftco-nav">
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a href="{% url 'main' %}" class="nav-link">Home</a></li>
+        <li class="nav-item"><a href="{% url 'about' %}" class="nav-link">About</a></li>
+        <li class="nav-item"><a href="{% url 'services' %}" class="nav-link">Services</a></li>
+        <li class="nav-item"><a href="{% url 'cars' %}" class="nav-link">Cars</a></li>
+        <li class="nav-item active"><a href="{% url 'blog' %}" class="nav-link">Blog</a></li>
+        <li class="nav-item"><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+        {% if user.is_authenticated%}
+        <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link">Logout</a></li>
+        {% else %}
+        <li class="nav-item"><a href="{% url 'signin' %}" class="nav-link">Sign In</a></li>
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('{{ post.image.url }}');"
+         data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
+            <div class="col-md-9 ftco-animate pb-5">
+                <p class="breadcrumbs"><span class="mr-2"><a href="{% url 'main' %}">Home <i
+                        class="ion-ios-arrow-forward"></i></a></span> <span class="mr-2"><a href="{% url 'blog' %}">Blog <i
+                        class="ion-ios-arrow-forward"></i></a></span> <span>Post <i
+                        class="ion-ios-arrow-forward"></i></span></p>
+                <h1 class="mb-3 bread">{{ post.title }}</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section ftco-degree-bg">
+    <div class="container">
+        <div class="col-md-12 ftco-animate">
+            <h2 class="mb-3">{{ post.subtitle }}</h2>
+            <p>{{ post.text }}</p>
+            <div class="about-author d-flex p-4 bg-light">
+                <div class="bio mr-5">
+                    <img src="{{ post.author_image.url }}" alt="Image placeholder" class="img-fluid mb-4">
+                </div>
+                <div class="desc">
+                    <h3>{{ post.author_name }}</h3>
+                    <p>{{ post.author_about }}</p>
+                </div>
+            </div>
+
+            <!-- START comment list-->
+            <div class="pt-5 mt-5">
+                {% if comment.count == 1 %}
+                <h3 class="mb-5">{{ comment.count }} Comment</h3>
+                {% elif comment.count == 0 %}
+                <h3 class="mb-5">No comments</h3>
+                {% else %}
+                <h3 class="mb-5">{{ comment.count }} Comments</h3>
+                {% endif %}
+                {% for com in comment %}
+                <div class="comment-body">
+                    <div class="meta">Author: {{ com.name }}<br>Date: {{ com.date_created }}<br>Comment:</div>
+                    <H4>{{ com.message }}</H4>
+                    <br>
+                    <hr>
+                </div>
+                {% endfor %}
+                <!-- END comment-list -->
+
+                <div class="comment-form-wrap pt-5">
+                    {% if user.is_authenticated%}
+                    <h3 class="mb-5">Leave a comment</h3>
+                    <form action="" class="p-5 bg-light" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input name="post" value="{{ post.id }}" hidden>
+                            <input name="name" value="{{ user.username }}" hidden>
+                            <!--                            <label for="name">Name</label>-->
+                            <!--                            {{ comment_form.name }}-->
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            {{ comment_form.message }}
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Post Comment" class="btn py-3 px-4 btn-primary">
+                        </div>
+
+                    </form>
+                    {% else %}
+                    <h3 class="mb-5">Register to leave a comment.</h3>
+                    <a href="{% url 'signin' %}">Sign In</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section> <!-- .section -->
+{% endblock %}
