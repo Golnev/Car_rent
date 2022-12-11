@@ -25,7 +25,8 @@ class Car(models.Model):
 
     image = models.ImageField(
         upload_to='cars/',
-        verbose_name='image'
+        verbose_name='image',
+        default='cars/nophoto.png'
     )
 
     description = models.TextField(
