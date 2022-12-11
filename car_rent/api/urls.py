@@ -1,8 +1,8 @@
 from django.urls import include, path
 
-from .views import CarsAPIView, CarsAPIUpdate
+from .views import CarsAPIView, CarsAPIDetailView
 
 urlpatterns = [
     path('carlist/', CarsAPIView.as_view()),
-    path('carlist/<int:pk>/', CarsAPIUpdate.as_view())
+    path('carlist/<int:pk>/', CarsAPIDetailView.as_view())
 ]
