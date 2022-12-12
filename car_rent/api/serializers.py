@@ -17,5 +17,5 @@ class CarSerializer(serializers.ModelSerializer):
         fields = ('id', 'brand', 'model', 'image', 'price', 'is_featured', 'description', 'mileage', 'transmission',
                   'seats', 'luggage', 'fuel', 'conditioner', 'gps', 'child_seat', 'trunk', 'music', 'seat_belt',
                   'sleeping_bed', 'water', 'bluetooth', 'onboard_computer', 'audio_input', 'long_term_trips',
-                  'car_kit', 'remote_central_locking', 'climate_control', 'in_rent')
+                  'car_kit', 'remote_central_locking', 'climate_control')
         # fields = '__all__'
