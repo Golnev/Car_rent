@@ -9,6 +9,7 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action
 from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -56,10 +57,17 @@ class ExpiredTokenAuthentication(TokenAuthentication):
         return user, token
 
 
+class CarsViewSetPagination(PageNumberPagination):
+    page_size = 3
+    page_size_query_param = 'page_size'
+    max_page_size = 10000
+
+
 class CarsViewSet(ModelViewSet):
     queryset = Car.objects.filter(in_rent=False)
     serializer_class = CarSerializer
     permission_classes = [IsAdminOrIsAuthenticatedReadOnly]
+    pagination_class = CarsViewSetPagination
     authentication_classes = [ExpiredTokenAuthentication]
 
     @action(methods=['get'], detail=False)
@@ -69,7 +77,6 @@ class CarsViewSet(ModelViewSet):
 
 
 class ExpiredObtainAuthToken(ObtainAuthToken):
-
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
