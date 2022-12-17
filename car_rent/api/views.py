@@ -1,7 +1,14 @@
+from datetime import datetime, timedelta
+
+import pytz
 from django.forms import model_to_dict
 from rest_framework import generics
 from django.shortcuts import render
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action
+from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -39,13 +46,45 @@ from rental.models import Car
 #     queryset = Car.objects.all()
 #     serializer_class = CarSerializer
 
+class ExpiredTokenAuthentication(TokenAuthentication):
+    def authenticate_credentials(self, key):
+        user, token = super(ExpiredTokenAuthentication, self).authenticate_credentials(key=key)
+        utc_now = datetime.utcnow()
+        utc_now = utc_now.replace(tzinfo=pytz.utc)
+        if token.created + timedelta(minutes=2) < utc_now:
+            raise AuthenticationFailed('token has expired')
+        return user, token
+
 
 class CarsViewSet(ModelViewSet):
     queryset = Car.objects.filter(in_rent=False)
     serializer_class = CarSerializer
     permission_classes = [IsAdminOrIsAuthenticatedReadOnly]
+    authentication_classes = [ExpiredTokenAuthentication]
 
     @action(methods=['get'], detail=False)
     def brands(self, request):
         br = Car.objects.all()
         return Response({'brands': set(i.brand for i in br)})
+
+
+class ExpiredObtainAuthToken(ObtainAuthToken):
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        try:
+            token = Token.objects.get(user=user)
+        except Token.DoesNotExist:
+            pass
+        else:
+            token.delete()
+        token = Token(
+            user=user,
+        )
+        token.save()
+        return Response({'token': token.key})
+
+
+expired_obtain_auth_token = ExpiredObtainAuthToken.as_view()

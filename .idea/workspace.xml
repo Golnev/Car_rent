@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd000e21-4ebb-4a66-ae85-10afcc5dd5c9" name="Changes" comment="API v1 add ViewSet and router">
-      <change afterPath="$PROJECT_DIR$/car_rent/api/permissions.py" afterDir="false" />
+    <list default="true" id="fd000e21-4ebb-4a66-ae85-10afcc5dd5c9" name="Changes" comment="API v1 add permission">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car_rent/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/car_rent/api/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/car_rent/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/car_rent/api/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/car_rent/car_rent/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/car_rent/car_rent/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/car_rent/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/car_rent/db.sqlite3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -246,7 +247,14 @@
       <option name="project" value="LOCAL" />
       <updated>1670855506162</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="API v1 add permission">
+      <created>1670948990597</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1670948990597</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -303,7 +311,8 @@
     <MESSAGE value="add API v1, get post update View" />
     <MESSAGE value="API v1 CRUD view" />
     <MESSAGE value="API v1 add ViewSet and router" />
-    <option name="LAST_COMMIT_MESSAGE" value="API v1 add ViewSet and router" />
+    <MESSAGE value="API v1 add permission" />
+    <option name="LAST_COMMIT_MESSAGE" value="API v1 add permission" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
