@@ -15,7 +15,7 @@
 </head>
 
 <body>
-  
+
 <!-- Form-->
 <div class="form">
   <div class="form-toggle"></div>
@@ -34,6 +34,9 @@
           <label for="password">Password</label>
           {{ form.password }}
         </div>
+        {% if form.errors %}
+        <p>Your username or password didn't match. Please try again</p>
+        {% endif %}
         <div class="form-group">
           <button type="submit">Log In</button>
         </div>

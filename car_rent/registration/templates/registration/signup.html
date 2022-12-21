@@ -46,6 +46,9 @@
           {{ form.email }}
 <!--          <input type="email" id="email" name="email" required="required"/>-->
         </div>
+        {% if form.errors %}
+          <p>The password repeat does not match or the password is too short.</p>
+        {% endif %}
         <div class="form-group">
           <button type="submit">Register</button>
         </div>
